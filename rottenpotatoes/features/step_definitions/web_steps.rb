@@ -252,3 +252,15 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+Then /^the director of "([^"]*)" should be "([^"]*)"$/ do |title, director|
+  text1 = "Details about #{title}"
+  text2 = "Director: #{director}"
+  if page.respond_to? :should
+    page.should have_content(text1)
+    page.should have_content(text2)
+  else
+    assert page.has_content?(text1)
+    assert page.has_content?(text2)
+  end
+end

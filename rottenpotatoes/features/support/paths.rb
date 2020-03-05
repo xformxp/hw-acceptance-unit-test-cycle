@@ -20,7 +20,17 @@ module NavigationHelpers
     #
     #   when /^(.*)'s profile page$/i
     #     user_profile_path(User.find_by_login($1))
-
+    
+    # edit pages
+    when /^the edit page for \"(.*)\"$/
+      begin
+        title = $1
+        @movie = Movie.find_by('title': title) 
+        edit_movie_path(@movie)
+      rescue NoMethodError, ArgumentError
+        raise "Can't find movie \"#{movie_name}\""
+      end
+    
     else
       begin
         page_name =~ /^the (.*) page$/
