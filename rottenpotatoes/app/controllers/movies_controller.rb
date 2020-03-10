@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def director
+    print(params)
     id = params[:id]
     @director = Movie.find(id).director
     if @director == nil or @director == ""
@@ -41,7 +42,7 @@ class MoviesController < ApplicationController
       redirect_to :sort => sort, :ratings => @selected_ratings, :no_director => no_director and return
     end
     if(no_director != nil)
-      @no_director = "#{Movie.find(no_director).title} has no director info"
+      @no_director = "'#{Movie.find(no_director).title}' has no director info"
     end
     @movies = Movie.where(rating: @selected_ratings.keys).order(ordering)
   end

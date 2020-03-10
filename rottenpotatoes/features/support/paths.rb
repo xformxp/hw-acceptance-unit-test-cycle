@@ -25,12 +25,30 @@ module NavigationHelpers
     when /^the edit page for \"(.*)\"$/
       begin
         title = $1
-        @movie = Movie.find_by('title': title) 
-        edit_movie_path(@movie)
+        movie = Movie.find_by('title': title) 
+        edit_movie_path(movie)
       rescue NoMethodError, ArgumentError
         raise "Can't find movie \"#{movie_name}\""
       end
     
+    when /^the details page for \"(.*)\"$/
+      begin
+        title = $1
+        movie = Movie.find_by('title': title)
+        movie_path(movie)
+      rescue NoMethodError, ArgumentError
+        raise "Can't find movie \"#{movie_name}\""
+      end
+    
+    when /^the Similar Movies page for \"(.*)\"$/
+      begin
+        title = $1
+        movie = Movie.find_by('title': title)
+        director_path(:id => movie)
+      rescue NoMethodError, ArgumentError
+        raise "Can't find movie \"#{movie_name}\""
+      end
+      
     else
       begin
         page_name =~ /^the (.*) page$/
