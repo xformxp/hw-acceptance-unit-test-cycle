@@ -30,3 +30,6 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'uglifier', '>= 2.7.1'
 gem 'jquery-rails'
 gem 'haml'
+
+# Coverage
+gem 'simplecov', :require => false
