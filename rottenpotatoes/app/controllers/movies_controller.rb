@@ -10,8 +10,18 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+  def director
+    id = params[:id]
+    @director = Movie.find(id).director
+    if @director == nil or @director == ""
+      redirect_to movies_path(:no_director => id)
+    end
+    @movies = Movie.where(director: @director)
+  end
+
   def index
     sort = params[:sort] || session[:sort]
+    no_director = params[:no_director]
     case sort
     when 'title'
       ordering,@title_header = {:title => :asc}, 'bg-warning hilite'
@@ -28,7 +38,10 @@ class MoviesController < ApplicationController
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
       session[:sort] = sort
       session[:ratings] = @selected_ratings
-      redirect_to :sort => sort, :ratings => @selected_ratings and return
+      redirect_to :sort => sort, :ratings => @selected_ratings, :no_director => no_director and return
+    end
+    if(no_director != nil)
+      @no_director = "#{Movie.find(no_director).title} has no director info"
     end
     @movies = Movie.where(rating: @selected_ratings.keys).order(ordering)
   end
